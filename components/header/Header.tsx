@@ -6,8 +6,8 @@ import ReddishLogo from '@/images/Reddish Full.png'
 import ReddishLogoOnly from '@/images/Reddish Logo Only.png'
 import Image from 'next/image';
 import React from 'react'
-import { Button } from './ui/button';
-import CreatePost from './CreatePost';
+import { Button } from '@/components/ui/button';
+import CreatePost from '@/components/CreatePost';
 import { useSidebar } from '@/components/ui/sidebar';
 
 const Header = () => {

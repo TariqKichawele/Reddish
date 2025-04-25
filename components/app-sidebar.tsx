@@ -23,7 +23,9 @@ import {
 import Link from "next/link"
 import Image from "next/image"
 import ReddishLogo from "@/images/Reddish Full.png"
-import CreateCommunityButton from "./CreateCommunityButton"
+import CreateCommunityButton from "@/components/header/CreateCommunityButton"
+import { getSubreddits } from "@/sanity/lib/subreddit/getSubreddits"
+import { GetSubredditsQueryResult } from "@/sanity.types"
 
 type SidebarData = {
   navMain: {
@@ -38,28 +40,24 @@ type SidebarData = {
 }
 
 // This is sample data.
-const sidebarData: SidebarData = {
-  navMain: [
-    {
-      title: "Communities",
-      url: "#",
-      items: [
-        {
-          title: "Installation",
-          url: "#",
-          isActive: false,
-        },
-        {
-          title: "Project Structure",
-          url: "#",
-          isActive: false,
-        },
-      ],
-    },
-  ],
-}
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const subreddits = await getSubreddits();
+
+  const sidebarData: SidebarData = {
+    navMain: [
+      {
+        title: "Communities",
+        url: "#",
+        items: subreddits.map((subreddit: GetSubredditsQueryResult[number]) => ({
+          title: subreddit.title,
+          url: `/community/${subreddit.slug}`,
+          isActive: false,
+        })),
+      },
+    ],
+  }
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
